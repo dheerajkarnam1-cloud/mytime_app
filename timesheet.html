@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Time Sheet Management</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <nav class="sidebar">
+      <h2 class="logo">myTime</h2>
+      <ul>
+        <li onclick="goToDashboard()">Dashboard</li>
+        <li class="active">Time sheet management</li>
+      </ul>
+    </nav>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="location">📍 Office Location</div>
+        <div class="user">Welcome, Dheeraj K</div>
+      </header>
+
+      <section class="timesheet">
+        <h3>Time Sheet Management</h3>
+        <p class="notice">
+          You can now fill up your work location directly in your timesheet.
+        </p>
+
+        <div class="timesheet-grid">
+          <div class="day">
+            <h4>MON</h4>
+            <p>13 Oct, 2025<br>08:30 AM - 06:00 PM</p>
+            <select>
+              <option>Home</option>
+              <option>Office</option>
+            </select>
+            <input type="number" placeholder="Hours" value="9.50" />
+          </div>
+
+          <div class="day">
+            <h4>TUE</h4>
+            <p>14 Oct, 2025<br>08:30 AM - 06:00 PM</p>
+            <select>
+              <option>Home</option>
+              <option>Office</option>
+            </select>
+            <input type="number" placeholder="Hours" value="9.50" />
+          </div>
+
+          <div class="day">
+            <h4>WED</h4>
+            <p>15 Oct, 2025<br>08:30 AM - 06:00 PM</p>
+            <select>
+              <option>Office</option>
+              <option>Home</option>
+            </select>
+            <input type="number" placeholder="Hours" value="6.15" />
+          </div>
+
+          <div class="day">
+            <h4>THU</h4>
+            <p>16 Oct, 2025<br>08:30 AM - 06:00 PM</p>
+            <select>
+              <option>Office</option>
+              <option>Home</option>
+            </select>
+            <input type="number" placeholder="Hours" value="8.52" />
+          </div>
+
+          <div class="day">
+            <h4>FRI</h4>
+            <p>17 Oct, 2025<br>08:30 AM - 06:00 PM</p>
+            <select>
+              <option>Office</option>
+              <option>Home</option>
+            </select>
+            <input type="number" placeholder="Hours" value="9.18" />
+          </div>
+
+          <div class="day off">
+            <h4>SAT</h4>
+            <p>18 Oct, 2025<br>Weekly Off</p>
+          </div>
+
+          <div class="day off">
+            <h4>SUN</h4>
+            <p>19 Oct, 2025<br>Weekly Off</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    function goToDashboard() {
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>
