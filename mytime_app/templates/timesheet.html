@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Time Sheet Management</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <h2 class="logo">myTime</h2>
+      <ul>
+        <li onclick="goToDashboard()">Dashboard</li>
+        <li class="active">Time sheet management</li>
+      </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="topbar">
+        <div class="location">📍 Office Location</div>
+        <div class="user">Welcome, Dheeraj K</div>
+      </header>
+
+      <section class="timesheet">
+        <h3>Time Sheet Management</h3>
+        <p class="notice">
+          You can now fill up your work location directly in your timesheet.
+        </p>
+
+        <div class="timesheet-grid">
+          <div class="day">
+            <h4>MON</h4>
+            <p>13 Oct, 2025<br>08:30 AM - 06:00 PM</p>
+            <select>
+              <option>Home</option>
+              <option>Office</option>
+            </select>
+            <input type="number" placeholder="Hours" value="9.50" />
+          </div>
+
+          <div class="day">
+            <h4>TUE</h4>
+            <p>14 Oct, 2025<br>08:30 AM - 06:00 PM</p>
+            <select>
+              <option>Home</option>
+              <option>Office</option>
+            </select>
+            <input type="number" placeholder="Hours" value="9.50" />
+          </div>
+
+          <div class="day">
+            <h4>WED</h4>
+            <p>15 Oct, 2025<br>08:30 AM - 06:00 PM</p>
+            <select>
+              <option>Office</option>
+              <option>Home</option>
+            </select>
+            <input type="number" placeholder="Hours" value="6.15" />
+          </div>
+
+          <div class="day">
+            <h4>THU</h4>
+            <p>16 Oct, 2025<br>08:30 AM - 06:00 PM</p>
+            <select>
+              <option>Office</option>
+              <option>Home</option>
+            </select>
+            <input type="number" placeholder="Hours" value="8.52" />
+          </div>
+
+          <div class="day">
+            <h4>FRI</h4>
+            <p>17 Oct, 2025<br>08:30 AM - 06:00 PM</p>
+            <select>
+              <option>Office</option>
+              <option>Home</option>
+            </select>
+            <input type="number" placeholder="Hours" value="9.18" />
+          </div>
+
+          <div class="day off">
+            <h4>SAT</h4>
+            <p>18 Oct, 2025<br>Weekly Off</p>
+          </div>
+
+          <div class="day off">
+            <h4>SUN</h4>
+            <p>19 Oct, 2025<br>Weekly Off</p>
+          </div>
+        </div>
+
+        <div style="margin:20px;">
+          <button onclick="saveTimesheet()">💾 Save Timesheet</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    function goToDashboard() {
+      window.location.href = "/";
+    }
+
+    // Save timesheet data to Flask backend
+    async function saveTimesheet() {
+      const days = document.querySelectorAll(".day:not(.off)");
+      const records = [];
+
+      days.forEach(day => {
+        const dayName = day.querySelector("h4").innerText.trim();
+        const location = day.querySelector("select").value;
+        const hours = parseFloat(day.querySelector("input").value) || 0;
+        records.push({ day: dayName, location, hours });
+      });
+
+      const res = await fetch("/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(records)
+      });
+
+      if (res.ok) {
+        alert("✅ Timesheet saved successfully!");
+      } else {
+        alert("⚠️ Error saving timesheet");
+      }
+    }
+
+    // Auto-load saved data on page refresh
+    window.onload = async () => {
+      const response = await fetch("/data");
+      if (!response.ok) return;
+      const data = await response.json();
+
+      data.forEach(entry => {
+        const dayDiv = [...document.querySelectorAll(".day h4")]
+          .find(d => d.innerText.trim() === entry.day);
+        if (dayDiv) {
+          const parent = dayDiv.parentElement;
+          parent.querySelector("select").value = entry.location;
+          parent.querySelector("input").value = entry.hours;
+        }
+      });
+    };
+  </script>
+</body>
+</html>
